@@ -16,5 +16,5 @@ interface IWithdrawFungibleTokenCallback {
         uint256 amount,
         address recipient,
         bytes calldata data
-    ) external;
+    ) external returns (bytes memory result);
 }

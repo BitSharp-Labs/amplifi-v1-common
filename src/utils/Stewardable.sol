@@ -1,17 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-contract Stewardable {
+import {Context} from "openzeppelin-contracts/contracts/utils/Context.sol";
+
+contract Stewardable is Context {
     address private s_steward;
     address private s_successor;
 
     modifier requireSteward() {
-        require(msg.sender == s_steward, "Stewardable: require steward");
+        require(_msgSender() == s_steward, "Stewardable: require steward");
         _;
     }
 
     modifier requireSuccessor() {
-        require(msg.sender == s_successor, "Stewardable: require successor");
+        require(_msgSender() == s_successor, "Stewardable: require successor");
         _;
     }
 

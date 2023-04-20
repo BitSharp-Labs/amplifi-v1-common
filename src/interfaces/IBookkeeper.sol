@@ -92,7 +92,7 @@ interface IBookkeeper is IERC721, IERC721Receiver {
         uint256 amount,
         address recipient,
         bytes calldata data
-    ) external;
+    ) external returns (bytes memory callbackResult);
 
     /// @notice Withdraw fungible tokens from a position
     /// @dev If `msg.sender` is a contract then it MUST implement `IWithdrawFungibleTokensCallback`
@@ -114,7 +114,7 @@ interface IBookkeeper is IERC721, IERC721Receiver {
         uint256[] calldata amounts,
         address recipient,
         bytes calldata data
-    ) external;
+    ) external returns (bytes memory callbackResult);
 
     /// @notice Withdraw an non-fungible token from a position
     /// @dev If `msg.sender` is a contract then it MUST implement `IWithdrawNonFungibleTokenCallback`
@@ -135,5 +135,5 @@ interface IBookkeeper is IERC721, IERC721Receiver {
         uint256 tokenId,
         address recipient,
         bytes calldata data
-    ) external;
+    ) external returns (bytes memory callbackResult);
 }
