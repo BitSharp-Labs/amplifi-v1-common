@@ -51,8 +51,88 @@ interface IBookkeeper is IERC721, IERC721Receiver {
         address indexed operator, uint256 indexed positionId, address token, uint256 tokenId, address recipient
     );
 
+    /// @notice Emitted when PUD is borrowed
+    /// @param operator The operator of the borrowing
+    /// @param positionId The position that is borrowed for
+    /// @param amount The amount that is borrowed
+    event Borrow(address indexed operator, uint256 indexed positionId, uint256 amount);
+
+    /// @notice Emitted when PUD is repaid
+    /// @param operator The operator of the repayment
+    /// @param positionId The position that is repaid for
+    /// @param principal The principal that is repaid
+    /// @param interest The interest that is repaid
+    event Repay(address indexed operator, uint256 indexed positionId, uint256 principal, uint256 interest);
+
+    /// @notice Emitted when a position is liquidated
+    /// @param operator The operator of the liquidation
+    /// @param positionId The position that is liquidated
+    /// @param recipient The recipient of the liquidation
+    /// @param principal The principal that is repaid during the liquidation
+    /// @param interest The interest that is repaid during the liquidation
+    /// @param penalty The penalty that is paid during the liquidation
+    /// @param equity The equity that is returned duringƒ the liquidation
+    event Liquidate(
+        address indexed operator,
+        uint256 indexed positionId,
+        address recipient,
+        uint256 principal,
+        uint256 interest,
+        uint256 penalty,
+        uint256 equity
+    );
+
+    /// @notice Mint a new position
+    /// @dev MUST throw unless `msg.sender` is `recipient` or one of its operators
+    /// MUST emit Transfer with `address(0)` as `from`
+    /// @param originator The originator of the new position
+    /// @param recipient The recipient of the new position
+    /// @return positionId The id of the new position
+    function mint(address originator, address recipient) external returns (uint256 positionId);
+
+    /// @notice Burn a position
+    /// @dev MUST throw unless `positionId` exists
+    /// MUST throw unless `msg.sender` is the position owner or one of its operators
+    /// MUST throw unless the position has no outstanding asset or debt
+    /// MUST emit Transfer with `address(0)` as `to`
+    /// @param positionId The position to burn
+    function burn(uint256 positionId) external;
+
+    /// @notice Borrow PUD in a position
+    /// @dev If `msg.sender` is a contract then it MUST implement `IBorrowCallback`
+    /// MUST throw unless `positionId` exists
+    /// MUST throw unless `msg.sender` is the position owner or one of its operators
+    /// MUST throw unless equity ratio is at or above liquidation ratio
+    /// MUST emit Borrow
+    /// @param positionId The position to borrow for
+    /// @param amount The amount to borrow
+    /// @param data Any data that should be passed to the callback
+    function borrow(uint256 positionId, uint256 amount, bytes calldata data) external;
+
+    /// @notice Repay PUD in a position
+    /// @dev Sufficient PUD must already exist in the position, call `depositFungibleToken()` first if needed
+    /// MUST throw unless `positionId` exists
+    /// MUST throw unless `msg.sender` is the position owner or one of its operators
+    /// MUST throw unless the position has sufficient PUD
+    /// MUST emit Repay
+    /// @param positionId The position to repay for
+    /// @param amount The amount to repay
+    function repay(uint256 positionId, uint256 amount) external;
+
+    /// @notice Liquidate a position
+    /// @dev If `msg.sender` is a contract then it MUST implement `ILiquidateCallback`
+    /// MUST throw unless `positionId` exists
+    /// MUST throw unless `recipient` is not the zero address
+    /// MUST throw unless equity ratio is below liquidation ratio before callback
+    /// MUST throw unless there is sufficient PUD to cover all of principal, interest, and remaining equity after callback
+    /// MUST emit Liquidate
+    /// @param positionId The position to liquidate
+    /// @param recipient The recipient of the liquidation
+    /// @param data Any data that should be passed to the callback
+    function liquidate(uint256 positionId, address recipient, bytes calldata data) external;
+
     /// @notice Deposit a fungible token into a position
-    /// @dev The caller is responsible for the actual transfer prior to calling
+    /// @dev The `msg.sender` is responsible for transferring the fungible token before calling
     /// MUST throw unless `positionId` exists
     /// MUST throw unless `token` is fungible and enabled
     /// MUST throw unless the amount received is greater than 0
@@ -63,7 +143,7 @@ interface IBookkeeper is IERC721, IERC721Receiver {
     function depositFungibleToken(uint256 positionId, address token) external returns (uint256 amount);
 
     /// @notice Deposit a non-fungible token into a position
-    /// @dev The caller is responsible for the actual transfer prior to calling
+    /// @dev The `msg.sender` is responsible for transferring the non-fungible token before calling
     /// MUST throw unless `positionId` exists
     /// MUST throw unless `token` is non-fungible and enabled
     /// MUST throw unless the specific token is received and not already deposited
