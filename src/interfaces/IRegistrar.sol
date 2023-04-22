@@ -32,7 +32,7 @@ interface IRegistrar {
     /// @param distributionAddresses The addresses to distribute to
     /// @param distributionRatesUDx18 The rates of distribution with 18 decimals of precision
     function setDistributionRates(address[] calldata distributionAddresses, uint256[] calldata distributionRatesUDx18)
-        external;
+	external;
 
     /// @notice Set the interest acceleration mode
     /// @param accelerationMode The interest acceleration mode
@@ -46,6 +46,12 @@ interface IRegistrar {
     /// @param token The token to set
     /// @param tokenInfo The info of the token
     function setTokenInfo(address token, TokenInfo calldata tokenInfo) external;
+
+    /// @notice (In)Activated verified operator contract,
+    ///         only active operator or owner could withdraw from boookkeeper.
+    /// @param operator The operator contract address
+    /// @param isActivated Whether activated operator or not
+    function setVerifiedOperator(address operator, bool isActivated) external;
 
     /// @notice Get the Bookkeeper associated with this Registrar
     /// @return bookkeeper The Bookkeeper
@@ -71,9 +77,9 @@ interface IRegistrar {
     /// @return distributionAddresses The addresses to distribute to
     /// @return distributionRatesUDx18 The rates of distribution with 18 decimals of precision
     function getDistributionRates()
-        external
-        view
-        returns (address[] memory distributionAddresses, uint256[] memory distributionRatesUDx18);
+	external
+	view
+	returns (address[] memory distributionAddresses, uint256[] memory distributionRatesUDx18);
 
     /// @notice Get the interest acceleration mode
     /// @return accelerationMode The interest acceleration mode
@@ -87,4 +93,9 @@ interface IRegistrar {
     /// @param token The token to query
     /// @return tokenInfo The info of the token
     function getTokenInfoOf(address token) external view returns (TokenInfo memory tokenInfo);
+
+    /// @notice Get operator status by addresses
+    /// @param operator The operator contract
+    /// @return true if the operator is verified and active
+    function isVerifiedActiveOperator(address operator) external view returns (bool);
 }
