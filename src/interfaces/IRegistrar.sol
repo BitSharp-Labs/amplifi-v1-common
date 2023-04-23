@@ -47,6 +47,10 @@ interface IRegistrar {
     /// @param tokenInfo The info of the token
     function setTokenInfo(address token, TokenInfo calldata tokenInfo) external;
 
+    /// @notice Get the price peg associated with this Registrar
+    /// @return pricePeg The price peg
+    function getPricePeg() external view returns (address pricePeg);
+
     /// @notice Get the Bookkeeper associated with this Registrar
     /// @return bookkeeper The Bookkeeper
     function getBookkeeper() external view returns (address bookkeeper);
