@@ -216,35 +216,4 @@ interface IBookkeeper is IERC721, IERC721Receiver {
     /// @param recipient The recipient of the liquidation
     /// @param data Any data that should be passed to the callback
     function liquidate(uint256 positionId, address recipient, bytes calldata data) external;
-
-    /// @notice Get the value of a position in PUD
-    /// @param positionId The position to query
-    /// @return value The value in PUD
-    function getValueOf(uint256 positionId) external view returns (uint256 value);
-
-    /// @notice Get the debt of a position in PUD
-    /// @param positionId The position to query
-    /// @return debt The debt in PUD
-    function getDebtOf(uint256 positionId) external view returns (uint256 debt);
-
-    /// @notice Get the total debt in all positions in PUD
-    /// @return totalDebt The total debt in PUD
-    function getTotalDebt() external view returns (uint256 totalDebt);
-
-    /// @notice Get the balance of a fungible token in a position
-    /// @param positionId The position to query
-    /// @param token The token to query
-    /// @return balance The balance
-    function getFungibleTokenBalanceOf(uint256 positionId, address token) external view returns (uint256 balance);
-
-    /// @notice Get the total balance of a fungible token in all positions
-    /// @param token The token to query
-    /// @return balance The total balance
-    function getTotalFungibleTokenBalance(address token) external view returns (uint256 balance);
-
-    /// @notice Get the position that a non-fungible token is in
-    /// @param token The token to query
-    /// @param tokenId The id of the token
-    /// @return positionId The position
-    function getNonFungibleTokenPosition(address token, uint256 tokenId) external view returns (uint256 positionId);
 }

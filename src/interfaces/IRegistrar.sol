@@ -87,43 +87,4 @@ interface IRegistrar {
     /// @param token The token to query
     /// @return tokenInfo The info of the token
     function getTokenInfoOf(address token) external view returns (TokenInfo memory tokenInfo);
-
-    /// @notice Get the value of a fungible token in PUD
-    /// @param token The token to query
-    /// @param amount The amount to query
-    /// @return value The value of the token in PUD
-    function getValueOfFungibleToken(address token, uint256 amount) external view returns (uint256 value);
-
-    /// @notice Get the values of fungible tokens in PUD
-    /// @param tokens The tokens to query
-    /// @param amounts The amounts to query
-    /// @return values The values of the tokens in PUD
-    function getValuesOfFungibleTokens(address[] calldata tokens, uint256[] calldata amounts)
-        external
-        view
-        returns (uint256[] memory values);
-
-    /// @notice Get the value of a non-fungible token in PUD
-    /// @param token The token to query
-    /// @param tokenId The id of the token
-    /// @return value The value of the token in PUD
-    function getValueOfNonFungibleToken(address token, uint256 tokenId) external view returns (uint256 value);
-
-    /// @notice Get the values of non-fungible tokens in PUD
-    /// @param token The token to query
-    /// @param tokenIds The ids of the tokens
-    /// @return values The values of the tokens in PUD
-    function getValuesOfNonFungibleTokens(address token, uint256[] calldata tokenIds)
-        external
-        view
-        returns (uint256[] memory values);
-
-    /// @notice Get the values of non-fungible tokens in PUD
-    /// @param tokens The tokens to query
-    /// @param tokenIds The ids of the tokens
-    /// @return values The values of the tokens in PUD
-    function getValuesOfNonFungibleTokens(address[] calldata tokens, uint256[] calldata tokenIds)
-        external
-        view
-        returns (uint256[] memory values);
 }
