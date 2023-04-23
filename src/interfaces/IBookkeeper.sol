@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import {IERC721} from "openzeppelin-contracts/contracts/token/ERC721/IERC721.sol";
+import {IERC721Enumerable} from "openzeppelin-contracts/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
 import {IERC721Receiver} from "openzeppelin-contracts/contracts/token/ERC721/IERC721Receiver.sol";
 
 /// @title Interface for Bookkeeper
 /// @notice Bookkeeper is responsible for managing positions
-interface IBookkeeper is IERC721, IERC721Receiver {
+interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @notice Emitted when a fungible token was deposited
     /// @param operator The operator of the deposit
     /// @param positionId The position that was deposited into
