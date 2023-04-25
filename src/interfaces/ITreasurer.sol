@@ -16,23 +16,42 @@ interface ITreasurer {
     /// @param positionId The position to rescue
     function rescue(uint256 positionId) external;
 
-    /// @notice Get the appraisal of fungible tokens in PUD
+    /// @notice Get the value of a fungible token in PUD
+    /// @param token The token to query
+    /// @param amount The amount to query
+    /// @return value The value of the token in PUD
+    function getValueOfFungibleToken(address token, uint256 amount) external view returns (uint256 value);
+
+    /// @notice Get the values of fungible tokens in PUD
     /// @param tokens The tokens to query
     /// @param amounts The amounts to query
-    /// @return value The value of the tokens in PUD
-    /// @return minEquity The minimum equity of the tokens in PUD
-    function getFungibleTokensAppraisal(address[] calldata tokens, uint256[] calldata amounts)
+    /// @return values The values of the tokens in PUD
+    function getValuesOfFungibleTokens(address[] calldata tokens, uint256[] calldata amounts)
         external
         view
-        returns (uint256 value, uint256 minEquity);
+        returns (uint256[] memory values);
 
-    /// @notice Get the appraisal of non-fungible tokens in PUD
+    /// @notice Get the value of a non-fungible token in PUD
+    /// @param token The token to query
+    /// @param tokenId The id of the token
+    /// @return value The value of the token in PUD
+    function getValueOfNonFungibleToken(address token, uint256 tokenId) external view returns (uint256 value);
+
+    /// @notice Get the values of non-fungible tokens in PUD
+    /// @param token The token to query
+    /// @param tokenIds The ids of the tokens
+    /// @return values The values of the tokens in PUD
+    function getValuesOfNonFungibleTokens(address token, uint256[] calldata tokenIds)
+        external
+        view
+        returns (uint256[] memory values);
+
+    /// @notice Get the values of non-fungible tokens in PUD
     /// @param tokens The tokens to query
     /// @param tokenIds The ids of the tokens
-    /// @return value The value of the tokens in PUD
-    /// @return minEquity The minimum equity of the tokens in PUD
-    function getNonFungibleTokensAppraisal(address[] calldata tokens, uint256[] calldata tokenIds)
+    /// @return values The values of the tokens in PUD
+    function getValuesOfNonFungibleTokens(address[] calldata tokens, uint256[] calldata tokenIds)
         external
         view
-        returns (uint256 value, uint256 minEquity);
+        returns (uint256[] memory values);
 }
