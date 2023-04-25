@@ -31,27 +31,13 @@ interface ITreasurer {
         view
         returns (uint256[] memory values);
 
-    /// @notice Get the value of a non-fungible token in PUD
+    /// @notice Get the underlying fungible tokens and values in PUD of a non-fungible token
     /// @param token The token to query
     /// @param tokenId The id of the token
-    /// @return value The value of the token in PUD
-    function getValueOfNonFungibleToken(address token, uint256 tokenId) external view returns (uint256 value);
-
-    /// @notice Get the values of non-fungible tokens in PUD
-    /// @param token The token to query
-    /// @param tokenIds The ids of the tokens
-    /// @return values The values of the tokens in PUD
-    function getValuesOfNonFungibleTokens(address token, uint256[] calldata tokenIds)
+    /// @return tokens The underlying fungible tokens of the non-fungible token
+    /// @return values The values of the underlying fungible tokens in PUD
+    function getValueOfNonFungibleToken(address token, uint256 tokenId)
         external
         view
-        returns (uint256[] memory values);
-
-    /// @notice Get the values of non-fungible tokens in PUD
-    /// @param tokens The tokens to query
-    /// @param tokenIds The ids of the tokens
-    /// @return values The values of the tokens in PUD
-    function getValuesOfNonFungibleTokens(address[] calldata tokens, uint256[] calldata tokenIds)
-        external
-        view
-        returns (uint256[] memory values);
+        returns (address[] memory tokens, uint256[] memory values);
 }
