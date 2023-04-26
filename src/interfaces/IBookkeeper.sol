@@ -210,7 +210,7 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// MUST throw unless `positionId` exists
     /// MUST throw unless `recipient` is not the zero address
     /// MUST throw unless the position's equity is below its margin requirement before callback
-    /// MUST throw unless there is sufficient PUD to cover all of principal, interest, and returning equity after callback
+    /// MUST throw unless there is sufficient PUD to cover all applicable principal, interest, penalty, and returning equity after callback
     /// MUST emit Liquidate
     /// @param positionId The position to liquidate
     /// @param recipient The recipient of the liquidation
