@@ -10,5 +10,5 @@ struct TokenInfo {
     TokenSubtype subtype;
     bool enabled;
     address priceOracle;
-    uint256 liquidationRatioUDx18;
+    uint256 marginRatioUDx18;
 }
