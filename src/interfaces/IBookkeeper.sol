@@ -71,7 +71,7 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @param principal The principal that is repaid during the liquidation
     /// @param interest The interest that is repaid during the liquidation
     /// @param penalty The penalty that is paid during the liquidation
-    /// @param equity The equity that is returned duringƒ the liquidation
+    /// @param equity The equity that is returned during the liquidation
     event Liquidate(
         address indexed operator,
         uint256 indexed positionId,
@@ -126,7 +126,7 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// MUST throw unless `msg.sender` is the position owner or one of its operators
     /// MUST throw unless `recipient` is not the zero address
     /// MUST throw unless the position has sufficient balance
-    /// MUST throw unless equity ratio is at or above liquidation ratio
+    /// MUST throw unless the position's equity is equal to or more than its margin requirement
     /// MUST emit WithdrawFungibleToken
     /// @param positionId The position to withdraw from
     /// @param token The token to withdraw
@@ -148,7 +148,7 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// MUST throw unless `tokens` and `amounts` are of equal length
     /// MUST throw unless `recipient` is not the zero address
     /// MUST throw unless the position has sufficient balance for each token
-    /// MUST throw unless equity ratio is at or above liquidation ratio
+    /// MUST throw unless the position's equity is equal to or more than its margin requirement
     /// MUST emit WithdrawFungibleTokens
     /// @param positionId The position to withdraw from
     /// @param tokens The tokens to withdraw
@@ -169,7 +169,7 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// MUST throw unless `msg.sender` is the position owner or one of its operators
     /// MUST throw unless `recipient` is not the zero address
     /// MUST throw unless the specific token is in the position
-    /// MUST throw unless equity ratio is at or above liquidation ratio
+    /// MUST throw unless the position's equity is equal to or more than its margin requirement
     /// MUST emit WithdrawNonFungibleToken
     /// @param positionId The position to withdraw from
     /// @param token The token to withdraw
@@ -188,7 +188,7 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @dev If `msg.sender` is a contract then it MUST implement `IBorrowCallback`
     /// MUST throw unless `positionId` exists
     /// MUST throw unless `msg.sender` is the position owner or one of its operators
-    /// MUST throw unless equity ratio is at or above liquidation ratio
+    /// MUST throw unless the position's equity is equal to or more than its margin requirement
     /// MUST emit Borrow
     /// @param positionId The position to borrow for
     /// @param amount The amount to borrow
@@ -209,42 +209,44 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @dev If `msg.sender` is a contract then it MUST implement `ILiquidateCallback`
     /// MUST throw unless `positionId` exists
     /// MUST throw unless `recipient` is not the zero address
-    /// MUST throw unless equity ratio is below liquidation ratio before callback
-    /// MUST throw unless there is sufficient PUD to cover all of principal, interest, and remaining equity after callback
+    /// MUST throw unless the position's equity is below its margin requirement before callback
+    /// MUST throw unless there is sufficient PUD to cover all of principal, interest, and returning equity after callback
     /// MUST emit Liquidate
     /// @param positionId The position to liquidate
     /// @param recipient The recipient of the liquidation
     /// @param data Any data that should be passed to the callback
     function liquidate(uint256 positionId, address recipient, bytes calldata data) external;
 
-    /// @notice Get the value of a position in PUD
-    /// @param positionId The position to query
-    /// @return value The value in PUD
-    function getValueOf(uint256 positionId) external view returns (uint256 value);
+    /// @notice Get the total debt of all positions in PUD
+    /// @return totalDebt The total debt in PUD
+    function getTotalDebt() external view returns (uint256 totalDebt);
 
     /// @notice Get the debt of a position in PUD
     /// @param positionId The position to query
     /// @return debt The debt in PUD
     function getDebtOf(uint256 positionId) external view returns (uint256 debt);
 
-    /// @notice Get the total debt in all positions in PUD
-    /// @return totalDebt The total debt in PUD
-    function getTotalDebt() external view returns (uint256 totalDebt);
-
-    /// @notice Get the balance of a fungible token in a position
+    /// @notice Get the value and margin requirement of a position in PUD
     /// @param positionId The position to query
-    /// @param token The token to query
-    /// @return balance The balance
-    function getFungibleTokenBalanceOf(uint256 positionId, address token) external view returns (uint256 balance);
+    /// @return value The value in PUD
+    /// @return margin The margin requirement in PUD
+    function getAppraisalOf(uint256 positionId) external view returns (uint256 value, uint256 margin);
 
-    /// @notice Get the total balance of a fungible token in all positions
-    /// @param token The token to query
-    /// @return balance The total balance
-    function getTotalFungibleTokenBalance(address token) external view returns (uint256 balance);
+    /// @notice Get the fungible tokens and respective balances in a position
+    /// @param positionId The position to query
+    /// @return tokens The fungible tokens
+    /// @return balances The balances
+    function getFungibleTokenBalancesOf(uint256 positionId)
+        external
+        view
+        returns (address[] memory tokens, uint256[] memory balances);
 
-    /// @notice Get the position that a non-fungible token is in
-    /// @param token The token to query
-    /// @param tokenId The id of the token
-    /// @return positionId The position
-    function getNonFungibleTokenPosition(address token, uint256 tokenId) external view returns (uint256 positionId);
+    /// @notice get the non-fungible tokens and respective token IDs in a position
+    /// @param positionId The position to query
+    /// @return tokens The non-fungible tokens
+    /// @return tokenIds The token IDs
+    function getNonFungibleTokenIds(uint256 positionId)
+        external
+        view
+        returns (address[] memory tokens, uint256[] memory tokenIds);
 }

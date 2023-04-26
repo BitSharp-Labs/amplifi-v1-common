@@ -12,7 +12,7 @@ interface IPUD is IERC20 {
     function mint(uint256 amount) external;
 
     /// @notice Burn `amount` of PUD for `msg.sender`
-    /// @dev MUST throw unless `balanceOf(msg.sender) >= amount`
+    /// @dev MUST throw unless `msg.sender` has sufficient PUD
     /// MUST emit Transfer with `address(0)` as `to`
     /// @param amount The amount of PUD to be burned
     function burn(uint256 amount) external;

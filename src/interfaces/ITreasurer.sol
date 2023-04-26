@@ -11,33 +11,39 @@ interface ITreasurer {
     event Rescue(address indexed positionId, uint256 writeOff, uint256 deficit);
 
     /// @notice Rescue an underwater position
-    /// @dev MUST throw unless the position's equity ratio is 0 or less
+    /// @dev MUST throw unless the position's equity is 0 or less
     /// MUST emit Rescue
     /// @param positionId The position to rescue
     function rescue(uint256 positionId) external;
 
-    /// @notice Get the value of a fungible token in PUD
+    /// @notice Get the value and margin requirement of a fungible token in PUD
     /// @param token The token to query
     /// @param amount The amount to query
     /// @return value The value of the token in PUD
-    function getValueOfFungibleToken(address token, uint256 amount) external view returns (uint256 value);
+    /// @return margin The margin requirement of the token
+    function getAppraisalOfFungibleToken(address token, uint256 amount)
+        external
+        view
+        returns (uint256 value, uint256 margin);
 
-    /// @notice Get the values of fungible tokens in PUD
+    /// @notice Get the values and margin requirements of fungible tokens in PUD
     /// @param tokens The tokens to query
     /// @param amounts The amounts to query
     /// @return values The values of the tokens in PUD
-    function getValuesOfFungibleTokens(address[] calldata tokens, uint256[] calldata amounts)
+    /// @return margins The margin requirements of the tokens
+    function getAppraisalOfFungibleTokens(address[] calldata tokens, uint256[] calldata amounts)
         external
         view
-        returns (uint256[] memory values);
+        returns (uint256[] memory values, uint256[] calldata margins);
 
-    /// @notice Get the underlying fungible tokens and values in PUD of a non-fungible token
+    /// @notice Get the underlying fungible tokens, values, and margin requirements in PUD of a non-fungible token
     /// @param token The token to query
     /// @param tokenId The id of the token
     /// @return tokens The underlying fungible tokens of the non-fungible token
     /// @return values The values of the underlying fungible tokens in PUD
-    function getValueOfNonFungibleToken(address token, uint256 tokenId)
+    /// @return margins The margin requirements of the underlying fungible tokens
+    function getAppraisalOfNonFungibleToken(address token, uint256 tokenId)
         external
         view
-        returns (address[] memory tokens, uint256[] memory values);
+        returns (address[] memory tokens, uint256[] memory values, uint256[] calldata margins);
 }
