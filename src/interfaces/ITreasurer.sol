@@ -26,15 +26,15 @@ interface ITreasurer {
         view
         returns (uint256 value, uint256 margin);
 
-    /// @notice Get the values and margin requirements of fungible tokens in PUD
+    /// @notice Get the value and margin requirement of fungible tokens in PUD
     /// @param tokens The tokens to query
     /// @param amounts The amounts to query
-    /// @return values The values of the tokens in PUD
-    /// @return margins The margin requirements of the tokens in PUD
+    /// @return value The value of the tokens in PUD
+    /// @return margin The margin requirement of the tokens in PUD
     function getAppraisalOfFungibleTokens(address[] calldata tokens, uint256[] calldata amounts)
         external
         view
-        returns (uint256[] memory values, uint256[] memory margins);
+        returns (uint256 value, uint256 margin);
 
     /// @notice Get the underlying fungible tokens, values, and margin requirements in PUD of a non-fungible token
     /// @param token The token to query
