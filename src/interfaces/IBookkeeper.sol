@@ -236,7 +236,7 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @param positionId The position to query
     /// @return tokens The fungible tokens
     /// @return balances The balances
-    function getFungibleTokenBalancesOf(uint256 positionId)
+    function getFungibleTokensOf(uint256 positionId)
         external
         view
         returns (address[] memory tokens, uint256[] memory balances);
@@ -245,7 +245,7 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @param positionId The position to query
     /// @return tokens The non-fungible tokens
     /// @return tokenIds The token IDs
-    function getNonFungibleTokenIds(uint256 positionId)
+    function getNonFungibleTokensOf(uint256 positionId)
         external
         view
         returns (address[] memory tokens, uint256[] memory tokenIds);
