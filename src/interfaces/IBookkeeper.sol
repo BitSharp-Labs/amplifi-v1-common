@@ -226,6 +226,12 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @return debt The debt in PUD
     function getDebtOf(uint256 positionId) external view returns (uint256 debt);
 
+    /// @notice Get the value and margin requirement of a position in PUD
+    /// @param positionId The position to query
+    /// @return value The value in PUD
+    /// @return margin The margin requirement in PUD
+    function getAppraisalOf(uint256 positionId) external view returns (uint256 value, uint256 margin);
+
     /// @notice Get the fungible tokens and respective balances in a position
     /// @param positionId The position to query
     /// @return tokens The fungible tokens
