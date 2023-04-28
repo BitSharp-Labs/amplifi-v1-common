@@ -1,16 +1,16 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-/// @title Interface for callback during withdrawal of a fungible token
-/// @notice Any contract that calls `IBookkeeper.withdrawNonFungibleToken()` must implement this interface
-interface IWithdrawNonFungibleTokenCallback {
-    /// @notice Called to `msg.sender` by `IBookkeeper.withdrawNonFungibleToken()` after withdrawal but before safety checks
+/// @title Interface for callback during withdrawal of a non-fungible token
+/// @notice Any contract that calls `IBookkeeper.withdrawNonFungible()` must implement this interface
+interface IWithdrawNonFungibleCallback {
+    /// @notice Called to `msg.sender` by `IBookkeeper.withdrawNonFungible()` after the withdrawal but before validations
     /// @param positionId The position to withdraw from
     /// @param token The token to withdraw
-    /// @param tokenId The id of the token
+    /// @param tokenId The specific item to withdraw
     /// @param recipient The recipient of the withdrawal
     /// @param data Any data passed by `msg.sender`
-    function withdrawNonFungibleTokenCallback(
+    function withdrawNonFungibleCallback(
         uint256 positionId,
         address token,
         uint256 tokenId,

@@ -21,12 +21,12 @@ contract Stewardable is Context {
         s_steward = steward;
     }
 
+    function appointSuccessor(address successor) external requireSteward {
+        s_successor = successor;
+    }
+
     function succeedSteward() external requireSuccessor {
         s_steward = s_successor;
         s_successor = address(0);
-    }
-
-    function appointSuccessor(address successor) external requireSteward {
-        s_successor = successor;
     }
 }

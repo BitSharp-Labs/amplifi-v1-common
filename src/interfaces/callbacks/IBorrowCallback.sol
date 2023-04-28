@@ -4,7 +4,7 @@ pragma solidity >=0.8.0;
 /// @title Interface for callback during borrowing of PUD
 /// @notice Any contract that calls `IBookkeeper.borrow()` must implement this interface
 interface IBorrowCallback {
-    /// @notice Called to `msg.sender` by `IBookkeeper.borrow()` after borrowing but before safety checks
+    /// @notice Called to `msg.sender` by `IBookkeeper.borrow()` after the borrowing but before validations
     /// @param positionId The position to borrow for
     /// @param amount The amount to borrow
     /// @param data Any data passed by `msg.sender`

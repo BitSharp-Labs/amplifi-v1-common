@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.8.0;
 
-import {AccelerationMode} from "../models/AccelerationMode.sol";
+import {RegressionMode} from "../models/RegressionMode.sol";
 import {RepaymentMode} from "../models/RepaymentMode.sol";
 import {TokenInfo} from "../models/TokenInfo.sol";
 
@@ -28,27 +28,27 @@ interface IRegistrar {
     /// @param penaltyRateUDx18 The liquidation penalty rate with 18 decimals of precision
     function setPenaltyRate(uint256 penaltyRateUDx18) external;
 
-    /// @notice Set the earning distribution rates
-    /// @param distributionAddresses The addresses to distribute to
-    /// @param distributionRatesUDx18 The rates of distribution with 18 decimals of precision
-    function setDistributionRates(address[] calldata distributionAddresses, uint256[] calldata distributionRatesUDx18)
+    /// @notice Set the interest allotment rates
+    /// @param allotmentAddresses The addresses to allot to
+    /// @param allotmentRatesUDx18 The rates of allotments with 18 decimals of precision
+    function setAllotmentRates(address[] calldata allotmentAddresses, uint256[] calldata allotmentRatesUDx18)
         external;
 
-    /// @notice Set the interest acceleration mode
-    /// @param accelerationMode The interest acceleration mode
-    function setAccelerationMode(AccelerationMode accelerationMode) external;
+    /// @notice Set the price regression mode
+    /// @param regressionMode The price regression mode
+    function setRegressionMode(RegressionMode regressionMode) external;
 
     /// @notice Set the repayment priority mode
     /// @param repaymentMode The repayment priority mode
     function setRepaymentMode(RepaymentMode repaymentMode) external;
 
-    /// @notice Set the info for a token
-    /// @param token The token to set
+    /// @notice Set the info of a token
+    /// @param token The token to set for
     /// @param tokenInfo The info of the token
     function setTokenInfo(address token, TokenInfo calldata tokenInfo) external;
 
-    /// @notice Get the price peg associated with this Registrar
-    /// @return pricePeg The price peg
+    /// @notice Get the PUD price peg associated with this Registrar
+    /// @return pricePeg The PUD price peg
     function getPricePeg() external view returns (address pricePeg);
 
     /// @notice Get the Bookkeeper associated with this Registrar
@@ -71,23 +71,23 @@ interface IRegistrar {
     /// @return penaltyRateUDx18 The liquidation penalty rate with 18 decimals of precision
     function getPenaltyRate() external view returns (uint256 penaltyRateUDx18);
 
-    /// @notice Get the earning distribution rates
-    /// @return distributionAddresses The addresses to distribute to
-    /// @return distributionRatesUDx18 The rates of distribution with 18 decimals of precision
-    function getDistributionRates()
+    /// @notice Get the interest allotment rates
+    /// @return allotmentAddresses The addresses to allot to
+    /// @return allotmentRatesUDx18 The rates of allotments with 18 decimals of precision
+    function getAllotmentRates()
         external
         view
-        returns (address[] memory distributionAddresses, uint256[] memory distributionRatesUDx18);
+        returns (address[] memory allotmentAddresses, uint256[] memory allotmentRatesUDx18);
 
-    /// @notice Get the interest acceleration mode
-    /// @return accelerationMode The interest acceleration mode
-    function getAccelerationMode() external view returns (AccelerationMode accelerationMode);
+    /// @notice Get the price regression mode
+    /// @return regressionMode The price regression mode
+    function getRegressionMode() external view returns (RegressionMode regressionMode);
 
     /// @notice Get the repayment priority mode
     /// @return repaymentMode The repayment priority mode
     function getRepaymentMode() external view returns (RepaymentMode repaymentMode);
 
-    /// @notice Get the info for a token
+    /// @notice Get the info of a token
     /// @param token The token to query
     /// @return tokenInfo The info of the token
     function getTokenInfoOf(address token) external view returns (TokenInfo memory tokenInfo);
