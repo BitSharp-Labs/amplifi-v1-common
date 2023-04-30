@@ -11,7 +11,7 @@ contract Lockable {
         s_unlocked = true;
     }
 
-    function initLock() internal {
+    function initializeLock() internal {
         s_unlocked = true;
     }
 }
