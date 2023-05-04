@@ -87,6 +87,11 @@ interface IRegistrar {
     /// @return repaymentMode The repayment priority mode
     function getRepaymentMode() external view returns (RepaymentMode repaymentMode);
 
+    /// @notice Get the token infos
+    /// @return tokens The tokens
+    /// @return tokenInfos The token infos
+    function getTokenInfos() external view returns (address[] memory tokens, TokenInfo[] memory tokenInfos);
+
     /// @notice Get the info of a token
     /// @param token The token to query
     /// @return tokenInfo The info of the token

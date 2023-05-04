@@ -7,13 +7,13 @@ interface IWithdrawNonFungibleCallback {
     /// @notice Called to `msg.sender` by `IBookkeeper.withdrawNonFungible()` after the withdrawal but before validations
     /// @param positionId The position to withdraw from
     /// @param token The token to withdraw
-    /// @param tokenId The specific item to withdraw
+    /// @param item The item to withdraw
     /// @param recipient The recipient of the withdrawal
     /// @param data Any data passed by `msg.sender`
     function withdrawNonFungibleCallback(
         uint256 positionId,
         address token,
-        uint256 tokenId,
+        uint256 item,
         address recipient,
         bytes calldata data
     ) external returns (bytes memory result);

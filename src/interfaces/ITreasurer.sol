@@ -38,21 +38,21 @@ interface ITreasurer {
 
     /// @notice Get the value and margin requirement of non-fungible tokens in PUD
     /// @param tokens The tokens to query
-    /// @param tokenIds The specific items to query
+    /// @param items The items to query
     /// @return value The value of the tokens in PUD
     /// @return margin The margin requirement of the tokens in PUD
-    function getAppraisalOfNonFungibles(address[] calldata tokens, uint256[] calldata tokenIds)
+    function getAppraisalOfNonFungibles(address[] calldata tokens, uint256[] calldata items)
         external
         view
         returns (uint256 value, uint256 margin);
 
     /// @notice Get the underlying fungible tokens, values, and margin requirements in PUD of a non-fungible token
     /// @param token The token to query
-    /// @param tokenId The specific item to query
+    /// @param item The item to query
     /// @return tokens The underlying fungible tokens of the non-fungible token
     /// @return values The values of the underlying fungible tokens in PUD
     /// @return margins The margin requirements of the underlying fungible tokens in PUD
-    function getAppraisalsOfNonFungible(address token, uint256 tokenId)
+    function getAppraisalsOfNonFungible(address token, uint256 item)
         external
         view
         returns (address[] memory tokens, uint256[] memory values, uint256[] memory margins);

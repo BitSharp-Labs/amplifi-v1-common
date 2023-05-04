@@ -18,8 +18,8 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @param operator The operator of the deposit
     /// @param positionId The position that was deposited into
     /// @param token The token that was deposited
-    /// @param tokenId The specific item that was deposited
-    event DepositNonFungible(address indexed operator, uint256 indexed positionId, address token, uint256 tokenId);
+    /// @param item The item that was deposited
+    event DepositNonFungible(address indexed operator, uint256 indexed positionId, address token, uint256 item);
 
     /// @notice Emitted when a fungible token was withdrawn
     /// @param operator The operator of the withdrawal
@@ -45,10 +45,10 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @param operator The operator of the withdrawal
     /// @param positionId The position that was withdrawn from
     /// @param token The token that was withdrawn
-    /// @param tokenId The specific item that was withdrawn
+    /// @param item The item that was withdrawn
     /// @param recipient The recipient of the withdrawal
     event WithdrawNonFungible(
-        address indexed operator, uint256 indexed positionId, address token, uint256 tokenId, address recipient
+        address indexed operator, uint256 indexed positionId, address token, uint256 item, address recipient
     );
 
     /// @notice Emitted when PUD was borrowed
@@ -113,12 +113,12 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// @dev The `msg.sender` is responsible for transferring the non-fungible token before calling
     /// MUST throw unless `positionId` exists
     /// MUST throw unless `token` is non-fungible and enabled
-    /// MUST throw unless the specific item is received and not already in a position
+    /// MUST throw unless the item is received and not already in a position
     /// MUST emit DepositNonFungible
     /// @param positionId The position to deposit into
     /// @param token The token to deposit
-    /// @param tokenId The specific item to deposit
-    function depositNonFungible(uint256 positionId, address token, uint256 tokenId) external;
+    /// @param item The item to deposit
+    function depositNonFungible(uint256 positionId, address token, uint256 item) external;
 
     /// @notice Withdraw a fungible token from a position
     /// @dev If `msg.sender` is a contract then it MUST implement `IWithdrawFungibleCallback`
@@ -166,19 +166,19 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
     /// MUST throw unless `positionId` exists
     /// MUST throw unless `msg.sender` is the owner or one of its operators
     /// MUST throw unless `recipient` is not the zero address
-    /// MUST throw unless the specific item is in the position before the withdrawal
+    /// MUST throw unless the item is in the position before the withdrawal
     /// MUST throw unless the position has sufficient equity after the withdrawal
     /// MUST emit WithdrawNonFungible
     /// @param positionId The position to withdraw from
     /// @param token The token to withdraw
-    /// @param tokenId The specific item to withdraw
+    /// @param item The  item to withdraw
     /// @param recipient The recipient of the withdrawal
     /// @param data Any data that should be passed through to `IWithdrawNonFungibleCallback.withdrawNonFungibleCallback()`
     /// @return callbackResult The result of the callback
     function withdrawNonFungible(
         uint256 positionId,
         address token,
-        uint256 tokenId,
+        uint256 item,
         address recipient,
         bytes calldata data
     ) external returns (bytes memory callbackResult);
@@ -239,12 +239,12 @@ interface IBookkeeper is IERC721Enumerable, IERC721Receiver {
         view
         returns (address[] memory tokens, uint256[] memory balances);
 
-    /// @notice Get the non-fungible tokens and specific items of a position
+    /// @notice Get the non-fungible tokens and items of a position
     /// @param positionId The position to query
     /// @return tokens The non-fungible tokens
-    /// @return tokenIds The specific items
+    /// @return items The items
     function getNonFungiblesOf(uint256 positionId)
         external
         view
-        returns (address[] memory tokens, uint256[] memory tokenIds);
+        returns (address[] memory tokens, uint256[] memory items);
 }
