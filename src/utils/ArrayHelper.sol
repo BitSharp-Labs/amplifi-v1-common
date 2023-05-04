@@ -34,12 +34,13 @@ library ArrayHelper {
         require(s_self.length == length - 1, "ArrayHelper: item not in array");
     }
 
-    function positionOf(address[] storage s_self, address item) internal view returns (uint256 position) {
+    function positionOf(address[] storage s_self, address item) internal view returns (int256 position) {
         uint256 length = s_self.length;
 
+        position = -1;
         for (uint256 i = 0; i < length; i++) {
             if (s_self[i] == item) {
-                position = i;
+                position = int256(i);
                 break;
             }
         }
